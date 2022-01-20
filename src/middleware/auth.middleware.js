@@ -50,7 +50,7 @@ async function verifyAuth(ctx, next) {
       // { id: 6, name: 'lucy', iat: 1640756202, exp: 1640842602 }
       algorithms: ["RS256"],
     });
-    ctx.request.user = result; // result对象中包含了加密的信息(在这里是id和name)，以及生成时间和失效时间
+    ctx.request.user = result; // result对象中包含被加密的信息(在这里是id和name)，以及生成时间和失效时间
     await next();
   } catch (err) {
     console.log(err);

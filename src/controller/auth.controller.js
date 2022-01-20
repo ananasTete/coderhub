@@ -9,6 +9,7 @@ class AuthController {
       expiresIn: 60 * 60 * 24 * 3, // 单位：秒   3天
       algorithm: "RS256",
     });
+    ctx.response.statusText = "登陆成功"
     ctx.response.body = {
       id,
       name,

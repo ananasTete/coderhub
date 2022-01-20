@@ -6,6 +6,7 @@ const router = new Router({
   prefix: "/login",
 });
 
+// 用户登录
 router.post("/", verifyLogin, login);
 
 module.exports = router;
