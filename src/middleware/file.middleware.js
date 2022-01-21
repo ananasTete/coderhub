@@ -1,25 +1,30 @@
 const path = require("path");
-
 const Jimp = require("jimp");
-
-const { AVATAR_PATH, PICTURE_PATH } = require("../constants/file-path");
+const { AVATAR_PATH, PICTURE_PATH, SWIPER_PATH } = require("../constants/file-path");
 const multer = require("koa-multer");
 
-// 头像
+// 1. 上传头像中间件
 const avatarUpload = multer({
   dest: AVATAR_PATH,
 });
 
 const avatarHandler = avatarUpload.single("avatar");
 
-// 动态配图
+// 2. 上传动态配图中间件
 const pictureUpload = multer({
   dest: PICTURE_PATH,
 });
 
-const pictureHandler = pictureUpload.array("picture", 12); // 最多上传10个文件
+const pictureHandler = pictureUpload.array("picture", 10); // 最多上传10个文件
 
-// 上传图片处理
+// 3. 上传轮播图中间件
+const swiperUpload = multer({
+  dest: SWIPER_PATH,
+})
+
+const swiperHandler = swiperUpload.array("swiper", 10)
+
+// 3. 上传图片处理中间件
 async function pictureResize(ctx, next) {
   console.log(ctx.req.file);
   console.log(ctx.req.files);
@@ -60,4 +65,5 @@ module.exports = {
   avatarHandler,
   pictureHandler,
   pictureResize,
+  swiperHandler
 };

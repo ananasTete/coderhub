@@ -7,8 +7,8 @@ const userService = require("../service/user.service");
 const { APP_HOST, APP_PORT } = require("../app/config");
 
 class FileController {
+  // 保头像信息中间件
   async saveAvatarInfo(ctx, next) {
-
     const { filename, mimetype, size } = ctx.req.file;
     const { id: userId } = ctx.request.user;
 
@@ -32,6 +32,7 @@ class FileController {
     ctx.response.body = "上传头像成功";
   }
 
+  // 保存动态配图信息中间件
   async savePictureInfo(ctx, next) {
     console.log(ctx.req.files);
 
@@ -49,6 +50,17 @@ class FileController {
       );
     }
     ctx.response.body = ctx.req.files;
+  }
+
+  // 保存轮播图中间件
+  async saveSwiperInfo(ctx, next) {
+    const files = ctx.req.files;
+    console.log(files);
+    for (const file of files) {
+      const { filename, mimetype, size } = file;
+      await fileService.saveSwiperInfo(filename, mimetype, size);
+      ctx.response.body = "上传轮播图成功";
+    }
   }
 }
 
