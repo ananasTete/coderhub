@@ -11,6 +11,7 @@ const PUBLIC_KEY = fs.readFileSync("./src/keys/rsa_public_key.pem");
 module.exports = {
   APP_HOST,
   APP_PORT,
+  APP_PATH,
   MYSQL_HOST,
   MYSQL_PORT,
   MYSQL_DATABASE,

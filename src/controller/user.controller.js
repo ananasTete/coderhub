@@ -1,8 +1,6 @@
 const fs = require("fs");
-
 const FileService = require("../service/file.service");
 const UserService = require("../service/user.service");
-
 const { AVATAR_PATH } = require("../constants/file-path");
 
 class UserController {
@@ -29,7 +27,6 @@ class UserController {
       const types = ["large", "middle", "small"];
       if (types.some((item) => type === item)) {
         filename = filename + "-" + type;
-        console.log(filename);
       }
 
       ctx.response.set("content-type", mimetype);

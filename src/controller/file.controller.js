@@ -7,7 +7,7 @@ const userService = require("../service/user.service");
 const { APP_HOST, APP_PORT } = require("../app/config");
 
 class FileController {
-  // 保头像信息中间件
+  // 保存  头像信息中间件
   async saveAvatarInfo(ctx, next) {
     const { filename, mimetype, size } = ctx.req.file;
     const { id: userId } = ctx.request.user;
@@ -22,7 +22,7 @@ class FileController {
         });
       }
     }
-    await fileService.deleteAvatarById(userId);
+    await fileService.deleteAvatarById(userId);  
     await fileService.saveAvatarInfo(filename, mimetype, size, userId);
 
     // 更新user表中avatar_url字段
