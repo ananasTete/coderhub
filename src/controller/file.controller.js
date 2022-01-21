@@ -3,6 +3,7 @@ const path = require("path");
 
 const fileService = require("../service/file.service");
 const userService = require("../service/user.service");
+const flowerService = require("../service/flower.service");
 
 const { APP_HOST, APP_PORT } = require("../app/config");
 
@@ -55,7 +56,6 @@ class FileController {
   // 保存轮播图中间件
   async saveSwiperInfo(ctx, next) {
     const files = ctx.req.files;
-    console.log(files);
     for (const file of files) {
       const { filename, mimetype, size } = file;
       await fileService.saveSwiperInfo(filename, mimetype, size);
@@ -65,12 +65,16 @@ class FileController {
 
   // 保存flower配图信息中间件
   async saveFlowerImgInfo(ctx, next) {
+    const { id: userId } = ctx.request.user;
     const { flowerId } = ctx.request.params;
     const files = ctx.req.files;
-    console.log(files);
     for (const file of files) {
       const { filename, mimetype, size } = file;
       await fileService.saveFlowerImgInfo(filename, mimetype, size, flowerId);
+
+      mimetype = mimetype.replace('/', '2')
+      const imgUrl = `${APP_HOST}:${APP_PORT}/flower/img/${filename}/${mimetype}`
+      await flowerService.updateImgUrlByFlowerId(imgUrl, userId)
     }
     ctx.response.body = "上传轮播图成功";
   }
