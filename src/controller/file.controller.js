@@ -65,16 +65,15 @@ class FileController {
 
   // 保存flower配图信息中间件
   async saveFlowerImgInfo(ctx, next) {
-    const { id: userId } = ctx.request.user;
     const { flowerId } = ctx.request.params;
     const files = ctx.req.files;
     for (const file of files) {
-      const { filename, mimetype, size } = file;
+      let { filename, mimetype, size } = file;
       await fileService.saveFlowerImgInfo(filename, mimetype, size, flowerId);
 
-      mimetype = mimetype.replace('/', '2')
-      const imgUrl = `${APP_HOST}:${APP_PORT}/flower/img/${filename}/${mimetype}`
-      await flowerService.updateImgUrlByFlowerId(imgUrl, userId)
+      mimetype = mimetype.replace("/", "2");
+      const imgUrl = `#${APP_HOST}:${APP_PORT}/flower/img/${filename}/${mimetype}`;
+      await flowerService.updateImgUrlByFlowerId(imgUrl, flowerId);
     }
     ctx.response.body = "上传轮播图成功";
   }

@@ -17,9 +17,9 @@ class FlowerService {
   }
 
   // 给flower添加img_url字段
-  async updateImgUrlByFlowerId(imgUrl, userId) {
-    const sql = `UPDATE flower SET img_url = ? WHERE id = ?;`;
-    const result = await connections.execute(sql, [imgUrl, userId]);
+  async updateImgUrlByFlowerId(imgUrl, flowerId) {
+    const sql = `UPDATE flower SET img_url = CONCAT(img_url, ?) WHERE id = ?;`;
+    const result = await connections.execute(sql, [imgUrl, flowerId]);
     return result[0];
   }
 }
