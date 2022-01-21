@@ -22,6 +22,13 @@ class FlowerService {
     const result = await connections.execute(sql, [imgUrl, flowerId]);
     return result[0];
   }
+
+  // 获取所有的flower信息
+  async getAllFlower() {
+    const sql = `SELECT * FROM flower`;
+    const result = await connections.execute(sql);
+    return result[0];
+  }
 }
 
 module.exports = new FlowerService();

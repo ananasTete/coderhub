@@ -72,7 +72,7 @@ class FileController {
       await fileService.saveFlowerImgInfo(filename, mimetype, size, flowerId);
 
       mimetype = mimetype.replace("/", "2");
-      const imgUrl = `#${APP_HOST}:${APP_PORT}/flower/img/${filename}/${mimetype}`;
+      const imgUrl = ` ${APP_HOST}:${APP_PORT}/flower/img/${filename}/${mimetype}`;
       await flowerService.updateImgUrlByFlowerId(imgUrl, flowerId);
     }
     ctx.response.body = "上传轮播图成功";

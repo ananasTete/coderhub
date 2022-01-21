@@ -1,13 +1,16 @@
 const Router = require("koa-router");
 const { verifyAuth } = require("../middleware/auth.middleware");
-const { addFlower, getFlowerImg } = require("../controller/flower.controller");
+const { addFlower, getFlowerImg, getAllFlower } = require("../controller/flower.controller");
 
 const router = new Router({ prefix: "/flower" });
 
 // 添加flower
 router.post("/", verifyAuth, addFlower);
 
+// 获取所有的flower信息
+router.get("/", getAllFlower)
+
 // 获取flower单张配图
-router.post('/img/:filename/:mimetype', getFlowerImg)
+router.get('/img/:filename/:mimetype', getFlowerImg)
 
 module.exports = router;

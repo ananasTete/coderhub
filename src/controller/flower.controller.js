@@ -20,6 +20,21 @@ class FlowerController {
       console.log(error);
     }
   }
+
+  // 获取所有的flower信息
+  async getAllFlower(ctx, next) {
+    try {
+      const result = await FlowerService.getAllFlower();
+      result.forEach(item => {
+        item.img_url = item.img_url.split(" ")
+        item.img_url.shift()
+        console.log(item.img_url);
+      })
+      ctx.response.body = result
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = new FlowerController();
