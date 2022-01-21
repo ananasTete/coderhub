@@ -7,7 +7,7 @@ const userService = require("../service/user.service");
 const { APP_HOST, APP_PORT } = require("../app/config");
 
 class FileController {
-  // 保存  头像信息中间件
+  // 保存头像信息中间件
   async saveAvatarInfo(ctx, next) {
     const { filename, mimetype, size } = ctx.req.file;
     const { id: userId } = ctx.request.user;
@@ -22,7 +22,7 @@ class FileController {
         });
       }
     }
-    await fileService.deleteAvatarById(userId);  
+    await fileService.deleteAvatarById(userId);
     await fileService.saveAvatarInfo(filename, mimetype, size, userId);
 
     // 更新user表中avatar_url字段
@@ -59,8 +59,20 @@ class FileController {
     for (const file of files) {
       const { filename, mimetype, size } = file;
       await fileService.saveSwiperInfo(filename, mimetype, size);
-      ctx.response.body = "上传轮播图成功";
     }
+    ctx.response.body = "上传轮播图成功";
+  }
+
+  // 保存flower配图信息中间件
+  async saveFlowerImgInfo(ctx, next) {
+    const { flowerId } = ctx.request.params;
+    const files = ctx.req.files;
+    console.log(files);
+    for (const file of files) {
+      const { filename, mimetype, size } = file;
+      await fileService.saveFlowerImgInfo(filename, mimetype, size, flowerId);
+    }
+    ctx.response.body = "上传轮播图成功";
   }
 }
 

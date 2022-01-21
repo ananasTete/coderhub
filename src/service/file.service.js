@@ -50,6 +50,13 @@ class FileService {
     const result = await connections.execute(sql, [filename, mimetype, size]);
     return result[0]
   }
+
+  /** 保存flower配图信息 */
+  async saveFlowerImgInfo(filename, mimetype, size, flowerId) {
+    const sql = `INSERT INTO flowerimg (filename, mimetype, size, flower_id) VALUES (?, ?, ?, ?);`;
+    const result = await connections.execute(sql, [filename, mimetype, size, flowerId]);
+    return result[0]
+  }
 }
 
 module.exports = new FileService();

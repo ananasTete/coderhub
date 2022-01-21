@@ -4,12 +4,14 @@ const {
   avatarHandler,
   pictureHandler,
   swiperHandler,
+  flowerImgHandler,
   pictureResize
 } = require("../middleware/file.middleware");
 const {
   saveAvatarInfo,
   savePictureInfo,
-  saveSwiperInfo
+  saveSwiperInfo,
+  saveFlowerImgInfo
 } = require("../controller/file.controller");
 
 // 上传图片路由
@@ -24,6 +26,9 @@ router.post("/avatar", verifyAuth, avatarHandler, pictureResize, saveAvatarInfo)
 router.post("/picture", verifyAuth, pictureHandler, pictureResize, savePictureInfo);
 
 // 上传轮播图
-router.post("/swiper", swiperHandler, pictureResize, saveSwiperInfo)
+router.post("/swiper", swiperHandler, saveSwiperInfo)
+
+// 上传flower配图
+router.post('/flower/:flowerId/img', verifyAuth, flowerImgHandler, saveFlowerImgInfo)
 
 module.exports = router;
