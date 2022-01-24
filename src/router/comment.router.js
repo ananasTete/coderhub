@@ -1,13 +1,13 @@
 const Router = require("koa-router");
-const { list, create, reply, remove } = require("../controller/comment.controller");
+const { getListByFlowerId, create, reply, remove } = require("../controller/comment.controller");
 const { verifyAuth, verifyPermission } = require("../middleware/auth.middleware");
 
 const router = new Router({
   prefix: "/comment",
 });
 
-// 获取评论列表
-router.get("/", list)
+// 获取商品的评论列表
+router.get("/", getListByFlowerId);
 
 // 发布评论
 router.post("/", verifyAuth, create);

@@ -1,12 +1,12 @@
 const connections = require("../app/database");
 
 class CommentService {
-  async list(trendId) {
+  async getListByFlowerId(flowerId) {
     const sql = `
       SELECT
         c.id,
         c.content,
-        c.trend_id trendId,
+        c.flower_id flowerId,
         c.comment_id commentId,
         c.createAt createTime,
         ( SELECT COUNT(*) FROM comment o WHERE c.id = o.comment_id ) commentCount,
@@ -14,21 +14,21 @@ class CommentService {
       FROM
         comment c
       LEFT JOIN user u ON c.user_id = u.id`;
-    const result = await connections.execute(sql, [trendId]);
+    const result = await connections.execute(sql, [flowerId]);
     return result[0];
   }
 
-  async create(content, trendId, userId) {
-    const sql = `INSERT INTO comment (content, trend_id, user_id) VALUES (?, ?, ?)`;
-    const result = await connections.execute(sql, [content, trendId, userId]);
+  async create(content, flowerId, userId) {
+    const sql = `INSERT INTO comment (content, flower_id, user_id) VALUES (?, ?, ?)`;
+    const result = await connections.execute(sql, [content, flowerId, userId]);
     return result[0];
   }
 
-  async reply(content, trendId, userId, commentId) {
-    const sql = `INSERT INTO comment (content, trend_id, user_id, comment_id) VALUES (?, ?, ?, ?)`;
+  async reply(content, flowerId, userId, commentId) {
+    const sql = `INSERT INTO comment (content, flower_id, user_id, comment_id) VALUES (?, ?, ?, ?)`;
     const result = await connections.execute(sql, [
       content,
-      trendId,
+      flowerId,
       userId,
       commentId,
     ]);
