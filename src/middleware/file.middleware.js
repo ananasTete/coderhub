@@ -5,6 +5,7 @@ const {
   PICTURE_PATH,
   SWIPER_PATH,
   FLOWER_IMG_PATH,
+  LABEL_IMG_PATH
 } = require("../constants/file-path");
 const multer = require("koa-multer");
 
@@ -29,12 +30,19 @@ const swiperUpload = multer({
 
 const swiperHandler = swiperUpload.array("swiper", 10);
 
-// 4. 上传flower配图
+// 4. 上传flower配图中间件
 const flowerImgUpload = multer({
   dest: FLOWER_IMG_PATH,
 });
 
 const flowerImgHandler = flowerImgUpload.array("flower", 10);
+
+// 5. 上传标签配图中间件
+const labelImgUpload = multer({
+  dest: LABEL_IMG_PATH
+})
+
+const labelImgHandler = labelImgUpload.single("label");
 
 // 5. 上传图片处理中间件
 async function pictureResize(ctx, next) {
@@ -78,5 +86,6 @@ module.exports = {
   pictureHandler,
   pictureResize,
   swiperHandler,
-  flowerImgHandler
+  flowerImgHandler,
+  labelImgHandler
 };

@@ -4,6 +4,7 @@ const path = require("path");
 const fileService = require("../service/file.service");
 const userService = require("../service/user.service");
 const flowerService = require("../service/flower.service");
+const categoryService = require("../service/category.service");
 
 const { APP_HOST, APP_PORT } = require("../app/config");
 
@@ -76,6 +77,18 @@ class FileController {
       await flowerService.updateImgUrlByFlowerId(imgUrl, flowerId);
     }
     ctx.response.body = "上传轮播图成功";
+  }
+
+  // 保存label配图信息中间件
+  async saveLabelImgInfo(ctx, next) {
+    const { labelId } = ctx.request.params;
+    let { filename, mimetype, size } = ctx.req.file;
+    await fileService.saveLabelImgInfo(filename, mimetype, size, labelId);
+
+    mimetype = mimetype.replace("/", "2");
+    const imgUrl = `${APP_HOST}:${APP_PORT}/category/label/${labelId}/img`;
+    await categoryService.updateImgUrlByLabelId(imgUrl, labelId);
+    ctx.response.body = "上传标签配图成功";
   }
 }
 

@@ -57,6 +57,13 @@ class FileService {
     const result = await connections.execute(sql, [filename, mimetype, size, flowerId]);
     return result[0]
   }
+
+  /** 保存label配图信息 */
+  async saveLabelImgInfo(filename, mimetype, size, labelId) {
+    const sql = `INSERT INTO labelimg (filename, mimetype, size, label_id) VALUES (?, ?, ?, ?);`;
+    const result = await connections.execute(sql, [filename, mimetype, size, labelId]);
+    return result[0]
+  }
 }
 
 module.exports = new FileService();

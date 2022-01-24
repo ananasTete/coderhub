@@ -5,13 +5,15 @@ const {
   pictureHandler,
   swiperHandler,
   flowerImgHandler,
+  labelImgHandler,
   pictureResize
 } = require("../middleware/file.middleware");
 const {
   saveAvatarInfo,
   savePictureInfo,
   saveSwiperInfo,
-  saveFlowerImgInfo
+  saveFlowerImgInfo,
+  saveLabelImgInfo
 } = require("../controller/file.controller");
 
 // 上传图片路由
@@ -30,5 +32,8 @@ router.post("/swiper", swiperHandler, saveSwiperInfo)
 
 // 上传flower配图
 router.post('/flower/:flowerId/img', verifyAuth, flowerImgHandler, saveFlowerImgInfo)
+
+// 上传标签配图
+router.post('/label/:labelId/img', verifyAuth, labelImgHandler, saveLabelImgInfo)
 
 module.exports = router;
