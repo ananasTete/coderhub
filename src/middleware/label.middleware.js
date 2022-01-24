@@ -1,6 +1,6 @@
 const categoryService = require("../service/category.service");
 
-async function verifyExists(ctx, next) {
+async function  verifyExists(ctx, next) {
   const { labels } = ctx.request.body;
 
   const labelsId = [];

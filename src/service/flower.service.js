@@ -29,6 +29,13 @@ class FlowerService {
     const result = await connections.execute(sql);
     return result[0];
   }
+
+  // 给flower添加标签
+  async addLabel(flowerId, labelId) {
+    const sql = `INSERT INTO flower_label (flower_id, label_id) VALUES (?, ?);`;
+    const result = connections.execute(sql, [flowerId, labelId]);
+    return result[0];
+  }
 }
 
 module.exports = new FlowerService();

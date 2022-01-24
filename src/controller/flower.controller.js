@@ -25,15 +25,23 @@ class FlowerController {
   async getAllFlower(ctx, next) {
     try {
       const result = await FlowerService.getAllFlower();
-      result.forEach(item => {
-        item.img_url = item.img_url.split(" ")
-        item.img_url.shift()
+      result.forEach((item) => {
+        item.img_url = item.img_url.split(" ");
+        item.img_url.shift();
         console.log(item.img_url);
-      })
-      ctx.response.body = result
+      });
+      ctx.response.body = result;
     } catch (error) {
       console.log(error);
     }
+  }
+
+  // 给flower添加标签
+  async addLabel(ctx, next) {
+    const { flowerId } = ctx.request.params;
+    const { labelId } = ctx.request.body;
+    await FlowerService.addLabel(flowerId, labelId)
+    ctx.response.body = "flower添加标签成功"                           
   }
 }
 
