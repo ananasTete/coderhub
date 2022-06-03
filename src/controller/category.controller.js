@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require("fs");
 const { create } = require("../service/comment.service");
 const categoryService = require("../service/category.service");
 const { LABEL_IMG_PATH } = require("../constants/file-path");
@@ -47,12 +47,14 @@ class CategoryController {
       const { labelId } = ctx.request.params;
       const result = await categoryService.getLabelImgByLabelId(labelId);
 
-
       if (result.length > 0) {
         let { filename, mimetype } = result[0];
-        mimetype = mimetype.replace("2", "/")
+        mimetype = mimetype.replace("2", "/");
         ctx.response.set("content-type", mimetype);
-        ctx.response.body = fs.createReadStream(LABEL_IMG_PATH + "/" + filename);
+        ctx.response.set("Cache-Control", "max-age=300")
+        ctx.response.body = fs.createReadStream(
+          LABEL_IMG_PATH + "/" + filename
+        );
       }
     } catch (error) {
       console.log(error);
@@ -62,10 +64,23 @@ class CategoryController {
   // 请求分类信息
   async getCategory() {
     try {
-      const result = await categoryService.getCategory()
+      const result = await categoryService.getCategory();
     } catch (error) {
       console.log(error);
     }
+  }
+
+  // 根据类别id请求flower信息
+  async search(ctx, next) {
+    try {
+      const { id } = ctx.request.query;
+      const result = await categoryService.search(id);
+      result.forEach((item) => {
+        item.img_url = item.img_url.split(" ");
+        item.img_url.shift();
+      });
+      ctx.response.body = result;
+    } catch (error) {}
   }
 }
 

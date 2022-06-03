@@ -25,6 +25,7 @@ class FrontpageController {
 
       mimetype = mimetype.replace("2", "/");
       ctx.response.set("content-type", mimetype);
+      ctx.response.set("Cache-Control", "no-store, max-age=300")
       ctx.response.body = fs.createReadStream(SWIPER_PATH + "/" + filename);
     } catch (error) {
       console.log(error);

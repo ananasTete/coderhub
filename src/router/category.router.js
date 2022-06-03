@@ -1,6 +1,6 @@
 const Router = require("koa-router");
 const { verifyAuth } = require("../middleware/auth.middleware");
-const { createCategory, createLabel, list, getLabelImg, getCategory } = require("../controller/category.controller");
+const { createCategory, createLabel, list, getLabelImg, getCategory, search } = require("../controller/category.controller");
 
 const router = new Router({
   prefix: "/category",
@@ -17,5 +17,8 @@ router.get("/label/:labelId/img", getLabelImg);
 
 // 请求分类信息接口
 router.get("/label/list", list)
+
+// 根据类别id请求flower信息接口
+router.get('/search', search)
 
 module.exports = router;

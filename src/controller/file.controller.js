@@ -73,10 +73,10 @@ class FileController {
       await fileService.saveFlowerImgInfo(filename, mimetype, size, flowerId);
 
       mimetype = mimetype.replace("/", "2");
-      const imgUrl = ` ${APP_HOST}:${APP_PORT}/flower/img/${filename}/${mimetype}`;
+      const imgUrl = ` http://${APP_HOST}:${APP_PORT}/flower/img/${filename}/${mimetype}`;
       await flowerService.updateImgUrlByFlowerId(imgUrl, flowerId);
     }
-    ctx.response.body = "上传轮播图成功";
+    ctx.response.body = "上传商品配图成功";
   }
 
   // 保存label配图信息中间件
@@ -86,7 +86,7 @@ class FileController {
     await fileService.saveLabelImgInfo(filename, mimetype, size, labelId);
 
     mimetype = mimetype.replace("/", "2");
-    const imgUrl = `${APP_HOST}:${APP_PORT}/category/label/${labelId}/img`;
+    const imgUrl = `http://${APP_HOST}:${APP_PORT}/category/label/${labelId}/img`;
     await categoryService.updateImgUrlByLabelId(imgUrl, labelId);
     ctx.response.body = "上传标签配图成功";
   }

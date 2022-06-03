@@ -23,8 +23,22 @@ class CategoryService {
     return result[0];
   }
 
+  // 在flower_label表设置flower的label
+  async setFlowerLabel(flowerId, labelId) {
+    const sql = `INSERT INTO flower_label (flower_id, label_id) VALUES (?, ?)`;
+    const result = await connections.execute(sql, [flowerId, labelId]);
+    return result[0];
+  }
+
+  // 验证flower和label的记录是否存在是否存在
+  async verifyFlowerLabel(flowerId, labelId) {
+    const sql = `SELECT * FROM flower_label WHERE flower_id = ? AND label_id = ?`;
+    const result = await connections.execute(sql, [flowerId, labelId]);
+    return result[0];
+  }
+
   // 查询标签列表
-  async  list() {
+  async list() {
     const sql = `SELECT
       c.id,
       c.name,
@@ -49,12 +63,30 @@ class CategoryService {
   async getLabelImgByLabelId(labelId) {
     const sql = `SELECT * FROM labelimg WHERE label_id = ?;`;
     const result = await connections.execute(sql, [labelId]);
-    return result[0]
+    return result[0];
   }
 
   // 获取分类信息
   async getCategory() {
-    const sql = `SELECT`
+    const sql = `SELECT`;
+  }
+
+  // 根据类别id请求flower信息
+  async search(id) {
+    const sql = `
+    SELECT
+      f.id, f.name, f.price, f.oldPrice, f.soldCount, f.material, f.language, f.createAt, f.updateAt, f.img_url,
+      IF(c.id, JSON_ARRAYAGG(JSON_OBJECT('id', c.id, 'content', c.content, 'userId', c.user_id, 'commentId', c.comment_id, 'updateTime', c.updateAt)), null) comment,
+      JSON_OBJECT('id', u.id, 'name', u.name, 'avatar_url', u.avatar_url) user
+    FROM
+      flower_label fl
+    LEFT JOIN flower f ON f.id = fl.flower_id
+    LEFT JOIN comment c ON c.flower_id = f.id
+    LEFT JOIN user u ON u.id = c.user_id
+    WHERE fl.label_id = ?
+    GROUP BY f.id`;
+    const result = await connections.execute(sql, [id]);
+    return result[0];
   }
 }
 

@@ -16,11 +16,13 @@
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
+    "koa-compress": "^5.1.0",
+    "koa-cors": "^0.0.16",
+    "koa-etag": "^4.0.0",
     "koa-multer": "^1.0.2",
     "koa-router": "^10.1.1",
     "mysql2": "^2.3.3",
-    "socket.io": "^4.4.1",
-    "ws": "^8.4.1"
+    "socket.io": "^4.4.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

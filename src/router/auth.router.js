@@ -1,6 +1,6 @@
 const Router = require("koa-router");
-const { login } = require("../controller/auth.controller");
-const { verifyLogin } = require("../middleware/auth.middleware");
+const { login, managerLogin } = require("../controller/auth.controller");
+const { verifyLogin, verifyLoginManager } = require("../middleware/auth.middleware");
 
 const router = new Router({
   prefix: "/login",
@@ -8,5 +8,8 @@ const router = new Router({
 
 // 用户登录
 router.post("/", verifyLogin, login);
+
+// 管理员登陆
+router.post("/manager", verifyLoginManager, managerLogin)
 
 module.exports = router;

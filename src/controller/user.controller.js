@@ -30,6 +30,7 @@ class UserController {
       }
 
       ctx.response.set("content-type", mimetype);
+      ctx.response.set("Cache-Control", "max-age=300")
       ctx.response.body = fs.createReadStream(AVATAR_PATH + "/" + filename);
     } catch (error) {
       console.log(error);
