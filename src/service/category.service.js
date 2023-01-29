@@ -9,6 +9,20 @@ class CategoryService {
     return result[0];
   }
 
+  // 删除分类
+  async deleteCategory(categoryID) {
+    const sql = `DELETE FROM category WHERE id = ?;`;
+    const result = await connections.execute(sql, [categoryID]);
+    return result[0];
+  }
+
+  // 删除标签
+  async deleteLabel(labelID) {
+    const sql = `DELETE FROM label WHERE id = ?;`;
+    const result = await connections.execute(sql, [labelID]);
+    return result[0];
+  }
+
   // 创建标签
   async createLabel(name, categoryId) {
     const sql = `INSERT INTO label (name, category_id) VALUES (?, ?);`;
@@ -40,9 +54,9 @@ class CategoryService {
   // 查询标签列表
   async list() {
     const sql = `SELECT
-      c.id,
-      c.name,
-      JSON_ARRAYAGG(JSON_OBJECT('id', l.id, 'name', l.name, 'imgUrl', l.img_url, 'categoryId', l.category_id))labels
+      c.*,
+      IF(l.id, JSON_ARRAYAGG(JSON_OBJECT('id', l.id, 'name', l.name, 'imgUrl', l.img_url, 'categoryId', l.category_id, 'createAt', l.createAt, 'updateAt', l.updateAt)), NULL) labels
+      
     FROM
       category c
     LEFT JOIN 

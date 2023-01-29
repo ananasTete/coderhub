@@ -43,8 +43,10 @@ class FlowerController {
     try {
       const result = await FlowerService.getAllFlower();
       result.forEach((item) => {
-        item.img_url = item.img_url.split(" ");
-        item.img_url.shift();
+        if (item.img_url) {
+          item.img_url = item.img_url.split(" ");
+          item.img_url.shift();
+        }
       });
       ctx.response.body = result;
     } catch (error) {
@@ -139,8 +141,10 @@ class FlowerController {
       console.log(options);
       const result = await FlowerService.searchFlowerByOptions(options);
       result.forEach((item) => {
-        item.img_url = item.img_url.split(" ");
-        item.img_url.shift();
+        if (item.img_url) {
+          item.img_url = item.img_url.split(" ");
+          item.img_url.shift();
+        }
       });
       ctx.response.body = result;
     } catch (error) {

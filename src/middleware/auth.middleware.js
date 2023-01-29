@@ -115,6 +115,7 @@ async function getMenuByPermission(permission) {
           permission: "超级管理员",
           menu: [
             { title: "商品池", to: "/home/pool" },
+            { title: "分类管理", to: "/home/category" },
             { title: "人员管理", to: "/home/person" },
             { title: "客服", to: "/home/service" },
           ],

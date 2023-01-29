@@ -1,4 +1,5 @@
 const orderService = require("../service/order.service");
+const FlowerService = require("../service/flower.service");
 
 class OrderController {
   async pay(ctx, next) {
@@ -10,6 +11,13 @@ class OrderController {
     ctx.body = "成功";
   }
 
+  async putGoods(ctx, next) {
+    const { id } = ctx.request.params;
+    const result = await orderService.confirm(id);
+    console.log(result);
+    ctx.body = result;
+  }
+
   async getOrders(ctx, next) {
     const result = await orderService.getOrders();
     ctx.body = result;
@@ -17,9 +25,17 @@ class OrderController {
 
   async confirm(ctx, next) {
     const { id } = ctx.request.body;
-    console.log(id);
     await orderService.confirm(id);
-    ctx.body = "成功"
+    await next();
+  }
+
+  async updateCount(ctx, next) {
+    const { id } = ctx.request.body;
+    const flower = await orderService.getOrderById(id);
+    if (flower.length > 0) {
+      await FlowerService.updateSoldCount(flower[0].id, flower[0].count);
+    }
+    ctx.body = "成功";
   }
 }
 

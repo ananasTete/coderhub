@@ -19,6 +19,13 @@ class CategoryController {
     }
   }
 
+  // 删除分类
+  async deleteCategory(ctx, next) {
+    const { categoryID } = ctx.request.params;
+    const result = await categoryService.deleteCategory(categoryID);
+    ctx.response.body = "删除成功";
+  }
+
   // 创建标签
   async createLabel(ctx, next) {
     const tableName = "label";
@@ -33,6 +40,13 @@ class CategoryController {
       const result = await categoryService.createLabel(name, categoryId);
       ctx.response.body = result;
     }
+  }
+
+  // 删除标签
+  async deleteLabel(ctx, next) {
+    const { labelID } = ctx.request.params;
+    const result = await categoryService.deleteLabel(labelID);
+    ctx.response.body = "删除成功";
   }
 
   // 查询标签列表
@@ -51,7 +65,7 @@ class CategoryController {
         let { filename, mimetype } = result[0];
         mimetype = mimetype.replace("2", "/");
         ctx.response.set("content-type", mimetype);
-        ctx.response.set("Cache-Control", "max-age=300")
+        ctx.response.set("Cache-Control", "max-age=300");
         ctx.response.body = fs.createReadStream(
           LABEL_IMG_PATH + "/" + filename
         );

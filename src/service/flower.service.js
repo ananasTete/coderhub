@@ -19,6 +19,7 @@ class FlowerService {
 
   // 给flower添加img_url字段
   async updateImgUrlByFlowerId(imgUrl, flowerId) {
+    console.log(imgUrl, flowerId);
     const sql = `UPDATE flower SET img_url = CONCAT(img_url, ?) WHERE id = ?;`;
     const result = await connections.execute(sql, [imgUrl, flowerId]);
     return result[0];
@@ -36,6 +37,7 @@ class FlowerService {
     LEFT JOIN label la ON fl.label_id = la.id 
     GROUP BY f.id`;
     const result = await connections.execute(sql);
+    // console.log(result[0]);
     return result[0];
   }
 
@@ -93,6 +95,15 @@ class FlowerService {
       language,
       id,
     ]);
+    return result[0];
+  }
+
+  // 改变销量
+  async updateSoldCount(id, count) {
+    console.log(id, count);
+    const sql = `UPDATE flower SET soldCount = soldCount - ? WHERE id = ?`;
+    const result = await connections.execute(sql, [count, id]);
+    console.log(result);
     return result[0];
   }
 

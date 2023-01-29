@@ -17,7 +17,7 @@ class OrderService {
   }
 
   async getOrders() {
-    const sql = `SELECT * FROM orders`;
+    const sql = `SELECT o.*, i.count inventory FROM orders o LEFT JOIN inventory i ON o.shopId = i.flower_id`;
     const result = await connections.execute(sql);
     return result[0];
   }
@@ -25,6 +25,12 @@ class OrderService {
   async confirm(id) {
     const sql = `UPDATE orders SET status = ? WHERE id = ?`;
     const result = await connections.execute(sql, [2, id]);
+    return result[0];
+  }
+
+  async getOrderById(id) {
+    const sql = `SELECT * FROM orders WHERE id = ?`;
+    const result = await connections.execute(sql, [id]);
     return result[0];
   }
 }
